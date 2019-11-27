@@ -1,0 +1,292 @@
+<MyLabelWithBackground@Label>:
+    canvas.before:
+        Color:
+            rgba: .06,.45,.45,.5
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            
+<Botao@Button+Label>:
+    id:Background_Tema
+    background_disabled_normal:'Turma_da_Monica.jpg'
+    disabled:True
+<Voltar@Button+Label>:
+    size_hint_x:.1
+    size_hint_y:None
+    height:30
+    text:'Voltar'
+    on_release:app.root.current='Menu'
+    background_color:(.06,.45,.45,1)
+    background_normal: ''
+
+
+<Gerenciador>:
+
+    SigninWindow:
+        name: 'window'
+    Menu:
+        name: 'Menu'    
+    Comunicar:
+        name: 'Comunicar'
+    Comer:
+        name:'Comer'
+    Beber:
+        name:'Beber'
+    Dancar:
+        name:'Dancar'
+    Brincar:
+        name:'Brincar'
+    Dormir:
+        name:'Dormir'
+    Fumar_um:
+        name:'Fumar_um'
+    Jogar:
+        name:'Jogar'
+    Atividades:
+        name:'Atividades'    
+
+    
+
+<Comunicar>
+    id: comunicar
+    Botao: 
+    Voltar:
+    BoxLayout:
+        padding:100
+        spacing:20
+        orientation: 'vertical'
+
+        BoxLayout:
+            spacing:20
+
+            Button:
+                background_normal:'comer.jpeg'
+                on_release: app.root.current = 'Comer'
+            Button:
+                background_normal:'beber.jpeg'
+                on_release: app.root.current = 'Beber'
+            Button:
+                background_normal:'dancar.jpeg'
+                on_release: app.root.current = 'Dancar'
+
+        BoxLayout:
+            spacing:20
+
+            Button:
+                background_normal: 'brincar.jpeg'
+                on_release: app.root.current = 'Brincar'
+            Button:
+                background_normal:'dormir.jpeg'
+                on_release: app.root.current = 'Dormir'
+            Button:
+                background_normal:'fumar.png'
+                on_release: app.root.current = 'Fumar_um'    
+                
+                
+            
+<Menu>
+    id: menu
+    Botao:              
+    #BoxLayout:    
+        #Image:
+            #id:back
+            #source:'Turma_da_Monica.jpg'
+            #size_hint_:.9
+    BoxLayout:
+        padding:150
+        spacing:30
+
+        Button:
+            text: 'Jogar'
+            background_color:(.06,.45,.45,1)
+            background_normal: ''
+            on_release:app.root.current = 'Jogar'
+            
+            
+        Button:
+            id:comunicar_button
+            text: 'Comunicar'
+            background_color:(.06,.45,.45,1)
+            background_normal: ''
+            on_release:app.root.current = 'Comunicar'
+            
+        Button: 
+            background_color:(.06,.45,.45,1)
+            text:'Atividades'
+            background_normal: ''
+            on_release:app.root.current = 'Atividades'         
+
+
+
+
+<Atividades>:
+    name:'Atividades'
+    orientation:'vertical'
+    Botao:
+    Voltar:
+    
+    ScrollView:
+        BoxLayout:
+            id:box
+            orientation:'vertical'
+            size_hint_y:None
+            height:self.minimum_height
+    BoxLayout:
+        size_hint_y:None
+        height:60
+        TextInput:
+            id:text_Atividade
+            multiline:False
+        TextInput:
+            id:Hora_Atividade
+            multiline:False   
+        Button:
+            background_normal:''
+            background_color:(.06,.45,.45,1)
+            text:'+'
+            size_hint_x:None
+            width:60
+            on_release:
+                root.AddWidget()
+                
+
+<Atividade>:
+    size_hint_y:None
+    heght:200
+    background_color:(.06,.45,.45,1)
+    MyLabelWithBackground:
+        id:label
+        font_size:30
+        bold:True
+    Button:
+        background_normal:''
+        background_color:(.06,.45,.45,1)
+        size_hint_x:None
+        text:'X'
+        width:60
+        on_release: app.root.get_screen('Atividades').ids.box.remove_widget(root)
+
+          
+<Jogar>:
+    Botao:
+    Voltar:
+                   
+
+<SigninWindow>:
+    name:'main_win'
+    id: main_win
+    orientation: "vertical"
+    spacing: 10
+    space_x: self.size[0]/3
+    canvas.before:
+        Color:
+            rgba: (1,1,1,1)
+        Rectangle:
+            size: self.size
+            pos: self.pos    
+    
+    BoxLayout: 
+        size_hint_y: None
+        height: 50
+        canvas.before:
+            Color:
+                rgba: (.06,.45,.45,1)
+            Rectangle:
+                size: self.size
+                pos: self.pos  
+        Label:
+            text: "AutPlay"
+            bold: True
+            font_size:30
+            
+  
+    Label:
+        id: sp
+        size_hint_y: None
+        height:20               
+    BoxLayout:
+        orientation: "vertical"
+        padding: main_win.space_x,10
+        #spacing: 20  
+        BoxLayout:
+            name:'Login'
+            orientation: "vertical"
+            spacing: 10
+            size_hint_y: None
+            height: 150
+            Label:
+                id: info
+                text:''
+                markup: True
+                size_hint_y: None
+                height: 50 
+            TextInput:
+                id: username_field
+                hint_text: "Apelido"
+                multiline: False
+                focus: True
+                on_text_validate: pwd_fiel.focus = True
+            TextInput:
+                id: pwd_field
+                hint_text: "Senha"
+                multiline: False
+                password: True
+                on_text_validate: root.validate_user() 
+        Label:
+            id: sp
+            size_hint_y: None
+            height:40            
+        Button:
+            id:btn
+            text: "Sing in"
+            size_hint_y: None
+            height:40 
+            background_color:(.06,.45,.45,1)
+            background_normal: ''
+            on_release: 
+                root.validate_user()
+                app.root.current = 'Menu'
+
+
+        Label:
+            id: sp2
+            size_hiny_y: None
+            height:40          
+
+<Comer>:
+    BoxLayout:
+        Button:
+            background_normal: 'comer.jpeg'
+            on_release: app.root.current = 'Comunicar'
+
+<Beber>:
+    BoxLayout:
+        Button:
+            background_normal: 'beber.jpeg'
+            on_release: app.root.current = 'Comunicar'
+
+<Dormir>:
+    BoxLayout:
+        Button:
+            background_normal:'dormir.jpeg'
+            on_release: app.root.current = 'Comunicar'
+
+<Dancar>:
+    BoxLayout:
+        Button:
+            background_normal:'dancar.jpeg'
+            on_release: app.root.current = 'Comunicar'
+
+<Brincar>:
+    BoxLayout:
+        Button:
+            background_normal: 'brincar.jpeg'
+            on_release: app.root.current = 'Comunicar'
+
+<Fumar_um>:
+    BoxLayout:
+        Button:
+            background_normal:'fumar.png'
+            on_release: app.root.current = 'Comunicar'
+
+
